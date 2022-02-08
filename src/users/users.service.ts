@@ -23,12 +23,24 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    return this.userModel.findByIdAndUpdate({
-      _id: id,
-    });
+    return this.userModel.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        $set: updateUserDto,
+      },
+      {
+        new: true,
+      },
+    );
   }
 
   remove(id: string) {
-    return `This action removes a #${id} user`;
+    return this.userModel
+      .deleteOne({
+        _id: id,
+      })
+      .exec();
   }
 }
